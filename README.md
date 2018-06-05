@@ -484,14 +484,14 @@ According to its [man page](http://man7.org/linux/man-pages/man2/execveat.2.html
 
 Hence, if we make `pathname` point to `"/bin/sh"`, and set `argv`, `envp` and `flags` to 0, we can still get a shell whatever the value of `dirfd`.
 
-## Controll RIP
+## Control RIP
 
 * Classic stack-based buffer overflow
 
 * Assume we can overflow last function's RBP = 0x601000, when second `leave;ret`, RIP will point to \*(0x601008)
 
 * When call any input functions like `read(0, buf, size)`
-    * if we can controll buf's address, we can let buf point to read function's return address.
+    * if we can control buf's address, we can let buf point to read function's return address.
     * when read function return, RIP will point to we writed address
 
 ## Remain value when input
