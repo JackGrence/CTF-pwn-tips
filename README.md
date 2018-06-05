@@ -17,6 +17,8 @@ CTF-pwn-tips
 * [Hijack hook function](#hijack-hook-function)
 * [Use printf to trigger malloc and free](#use-printf-to-trigger-malloc-and-free)
 * [Use execveat to open a shell](#use-execveat-to-open-a-shell)
+* [Control RIP](#control-rip)
+* [Remain value when input](#remain-value-when-input)
 
 
 ## Overflow
@@ -481,3 +483,18 @@ According to its [man page](http://man7.org/linux/man-pages/man2/execveat.2.html
 > If pathname is absolute, then dirfd is ignored.
 
 Hence, if we make `pathname` point to `"/bin/sh"`, and set `argv`, `envp` and `flags` to 0, we can still get a shell whatever the value of `dirfd`.
+
+## Controll RIP
+
+* Classic stack-based buffer overflow
+
+* Assume we can overflow last function's RBP = 0x601000, when second `leave;ret`, RIP will point to \*(0x601008)
+
+* When call any input functions like `read(0, buf, size)`
+    * if we can controll buf's address, we can let buf point to read function's return address.
+    * when read function return, RIP will point to we writed address
+
+## Remain value when input
+
+* `scanf("%d", &target)`
+    * Just input "+" can remain target variable's value
